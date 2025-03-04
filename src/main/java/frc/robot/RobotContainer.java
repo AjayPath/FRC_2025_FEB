@@ -17,10 +17,7 @@ import frc.robot.subsystems.CoralIntakeSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
 
-import java.util.Map;
-
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
@@ -34,7 +31,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
@@ -44,16 +40,19 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
+  
+  // Call subsystems
   private final DriveSubsystem s_driveSubsystem = new DriveSubsystem();
   private final CoralIntakeSubsystem s_CoralIntakeSubsystem = new CoralIntakeSubsystem();
   private final ArmSubsystem s_ArmSubsystem = new ArmSubsystem();
   private final ElevatorSubsystem s_ElevatorSubsystem = new ElevatorSubsystem();
 
-  // Replace with CommandPS4Controller or CommandJoystick if needed
+
+  // Setup Driver Controller
   private final CommandXboxController m_driverController =
       new CommandXboxController(DriverControllerConstants.kDriverControllerPort);
 
+  // Setup Operator Controller
   private final CommandXboxController m_operatorController = 
       new CommandXboxController(OperatorControllerConstants.kOperatorControllerPort);
 
@@ -84,36 +83,68 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
    
-    // CORAL INTAKE BUTTONS
+    //________________________________________DRIVER BUTTONS____________________________________________________________//
 
+    // INTAKE
     m_driverController.leftBumper().whileTrue(
-      new CoralIntakeCmd(s_CoralIntakeSubsystem, 1)
+      new CoralIntakeCmd(s_CoralIntakeSubsystem, CoralIntakeConstants.kCoralIntakeSpeed)
     );
 
     m_driverController.leftBumper().whileFalse(
-      new CoralIntakeCmd(s_CoralIntakeSubsystem, 0)
+      new CoralIntakeCmd(s_CoralIntakeSubsystem, CoralIntakeConstants.kCoralNoSpeed)
     );
 
+    // OUTAKE
     m_driverController.rightBumper().whileTrue(
-    new CoralIntakeCmd(s_CoralIntakeSubsystem, -1)
+    new CoralIntakeCmd(s_CoralIntakeSubsystem, CoralIntakeConstants.kCoralOutakeSpeed)
     );
 
     m_driverController.rightBumper().whileFalse(
-      new CoralIntakeCmd(s_CoralIntakeSubsystem, 0)
+      new CoralIntakeCmd(s_CoralIntakeSubsystem, CoralIntakeConstants.kCoralNoSpeed)
     );
 
-    // Level 4
+    //_______________________________________OPERATOR BUTTONS___________________________________________________________//
+
+
+    // GO TO HOME POSITION
+
+
+
+
+    // GO TO FEEDER POSITION
+
+
+
+
+    // GO TO TRAVEL POSITION
+
+
+
+
+    // GO TO LEVEL 1
+
+
+
+
+    // GO TO LEVEL 2
+
+
+
+
+    // GO TO LEVEL 3
+
+
+
+
+    // GO TO LEVEL 4
+
 
     m_operatorController.x().onTrue(
 
       //new SequentialCommandGroup(
-        //new MoveArmToSetpoint(s_ArmSubsystem, ArmConstants.kLevel4),
-        new MoveElevatorToSetpoint(s_ElevatorSubsystem, ElevatorConstants.kLevel4)
+        new MoveArmToSetpoint(s_ArmSubsystem, ArmConstants.kLevel4)
+        //new MoveElevatorToSetpoint(s_ElevatorSubsystem, ElevatorConstants.kLevel4)
       //)
 
     );
@@ -123,7 +154,8 @@ public class RobotContainer {
     m_operatorController.a().onTrue(
 
       new SequentialCommandGroup(
-        new MoveElevatorToSetpoint(s_ElevatorSubsystem, ElevatorConstants.kFeederStation),new MoveArmToSetpoint(s_ArmSubsystem, ArmConstants.kFeederStation)
+        new MoveElevatorToSetpoint(s_ElevatorSubsystem, ElevatorConstants.kHome)
+        //new MoveArmToSetpoint(s_ArmSubsystem, ArmConstants.kFeederStation)
       )
 
     );
@@ -131,7 +163,7 @@ public class RobotContainer {
     m_operatorController.y().onTrue(
 
       new SequentialCommandGroup(
-        new MoveArmToSetpoint(s_ArmSubsystem, ArmConstants.kLevel3),
+        //new MoveArmToSetpoint(s_ArmSubsystem, ArmConstants.kLevel3),
         new MoveElevatorToSetpoint(s_ElevatorSubsystem, ElevatorConstants.kLevel3)
       )
 
@@ -155,8 +187,8 @@ public class RobotContainer {
 
     m_operatorController.rightBumper().onTrue(
       //new SequentialCommandGroup(
-        new MoveElevatorToSetpoint(s_ElevatorSubsystem, ElevatorConstants.kHome)
-          //new MoveArmToSetpoint(s_ArmSubsystem, ArmConstants.kHome)
+        //new MoveElevatorToSetpoint(s_ElevatorSubsystem, ElevatorConstants.kHome)
+        new MoveArmToSetpoint(s_ArmSubsystem, ArmConstants.kHome)
         //)
     );
 

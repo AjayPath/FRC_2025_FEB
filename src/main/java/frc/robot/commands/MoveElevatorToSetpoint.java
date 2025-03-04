@@ -23,6 +23,7 @@ public class MoveElevatorToSetpoint extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    // Runs the elevator using Max Motion to the desired Setpoint specified in Constants
     s_ElevatorSubsystem.moveElevatorToPosition(Setpoint);
   }
 
@@ -37,6 +38,8 @@ public class MoveElevatorToSetpoint extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Math.abs(s_ElevatorSubsystem.getElevatorPosition() - Setpoint) < 2.0;
+    // This is the end condition for the elevator subsystem,
+    // The elevator will run until its encoder position is within 2 rotations of the desired setpoint
+    return Math.abs(s_ElevatorSubsystem.getElevator1Position() - Setpoint) < 2.0;
   }
 }

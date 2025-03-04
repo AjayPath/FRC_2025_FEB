@@ -4,10 +4,7 @@
 
 package frc.robot.subsystems;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.spark.SparkClosedLoopController;
-import com.revrobotics.spark.SparkFlex;
 import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkBase.ControlType;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -19,9 +16,8 @@ import frc.robot.Constants.CoralIntakeConstants;
 
 public class CoralIntakeSubsystem extends SubsystemBase {
 
-  private SparkFlex m_CoralIntake = new SparkFlex(CoralIntakeConstants.kCoralIntakeCanId, MotorType.kBrushless);
-  private SparkClosedLoopController m_CoralIntakeController = m_CoralIntake.getClosedLoopController();
-  private RelativeEncoder m_CoralIntakeEncdoer = m_CoralIntake.getEncoder();
+  // Setup coral motor with SparkMax
+  private SparkMax m_CoralIntake = new SparkMax(CoralIntakeConstants.kCoralIntakeCanId, MotorType.kBrushless);
 
   /** Creates a new CoralIntakeSubsystem. */
   public CoralIntakeSubsystem() {
@@ -32,24 +28,20 @@ public class CoralIntakeSubsystem extends SubsystemBase {
       PersistMode.kPersistParameters
     );
 
-    m_CoralIntakeEncdoer.setPosition(0);
-
   }
 
-  public void setCoralIntakeVelocity(double CoralIntakeSpeed) {
+  // This commands sets the output power of the motor between 0 and 1
+  public void setCoralIntakeSpeed(double CoralIntakeSpeed) {
     m_CoralIntake.set(CoralIntakeSpeed);
-    //m_CoralIntakeController.setReference(CoralIntakeSpeed, ControlType.kMAXMotionVelocityControl);
   }
 
+  // This command gets the output current of the Spark while it is running
   public double getCoralIntakeCurrentDraw() {
     return m_CoralIntake.getOutputCurrent();
   }
 
-  public double getCoralIntakeSpeed(){
-    return m_CoralIntakeEncdoer.getVelocity(); 
-  }
 
-
+  // This command stops the intake motors
   public void stopCoralIntake() {
     m_CoralIntake.stopMotor();
   }
@@ -57,7 +49,8 @@ public class CoralIntakeSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+
+    // Print out the current of the intake to the smartdashboard
     SmartDashboard.putNumber("Current ", getCoralIntakeCurrentDraw());
-    SmartDashboard.putNumber("intake velocity", getCoralIntakeSpeed()); 
   }
 }

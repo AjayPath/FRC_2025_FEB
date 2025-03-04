@@ -69,7 +69,7 @@ public class Configs {
                 .idleMode(IdleMode.kBrake)
                 .smartCurrentLimit(50)
                 .voltageCompensation(12)
-                .inverted(false);
+                .inverted(true);
 
             elevator1Config
                 .closedLoop
@@ -85,7 +85,7 @@ public class Configs {
                 .idleMode(IdleMode.kBrake)
                 .smartCurrentLimit(50)
                 .voltageCompensation(12)
-                .inverted(true);
+                .inverted(false);
 
             elevator2Config
                 .closedLoop
@@ -107,21 +107,28 @@ public class Configs {
 
         static {
 
+            // Arm Configs velocity and acceleration are based in radians, ask Ajay before changins one of these values
+            double armFactor = 2 * Math.PI;
+
             armConfig
                 .idleMode(IdleMode.kBrake)
                 .smartCurrentLimit(50)
-                .voltageCompensation(12)
-                .inverted(false);
+                .voltageCompensation(12);
 
-            armConfig
-                .closedLoop
-                .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-                .p(0.12)
+            armConfig.absoluteEncoder
+                .inverted(true)
+                .positionConversionFactor(armFactor);
+
+            armConfig.closedLoop
+                .feedbackSensor(FeedbackSensor.kAbsoluteEncoder)
+                .p(1)
                 .outputRange(-1, 1)
+                .positionWrappingEnabled(true)
+                .positionWrappingInputRange(0, armFactor)
                 .maxMotion
-                .maxVelocity(6000)
-                .maxAcceleration(10000)
-                .allowedClosedLoopError(1);
+                .maxVelocity(4)
+                .maxAcceleration(4)
+                .allowedClosedLoopError(0.2);
 
         }
 
@@ -129,7 +136,7 @@ public class Configs {
 
     public static final class CoralIntakeSubsystem {
 
-        public static final SparkFlexConfig coralIntakeConfig = new SparkFlexConfig();
+        public static final SparkMaxConfig coralIntakeConfig = new SparkMaxConfig();
 
         static {
 
@@ -138,16 +145,6 @@ public class Configs {
                 .smartCurrentLimit(40)
                 .voltageCompensation(12)
                 .inverted(true);
-
-            coralIntakeConfig
-                .closedLoop
-                .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-                .p(0.1)
-                .outputRange(-1, 1)
-                .maxMotion
-                .maxVelocity(2000)
-                .maxAcceleration(4000)
-                .allowedClosedLoopError(1);
 
         }
 

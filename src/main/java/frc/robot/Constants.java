@@ -1,4 +1,4 @@
-// Copyright (c) FIRST and other WPILib contributors.
+  // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
@@ -91,13 +91,15 @@ public final class Constants {
     public static final int kElevator1CanId = 50;
     public static final int kElevator2CanId = 51;
 
-    public static final double kFeederStation = 20; //14
-    public static final double kTravel = 0;
-    public static final double kLevel1 = 0;
-    public static final double kLevel2 = 19; //16
-    public static final double kLevel3 = 8; // 8
-    public static final double kLevel4 = 40; //88
     public static final double kHome = 0;
+    public static final double kFeederStation = 0; //14
+    public static final double kTravel = 0;
+
+    public static final double kLevel1 = 0;
+    public static final double kLevel2 = 0; //16
+    public static final double kLevel3 = 0; // 8
+    public static final double kLevel4 = 40; //88
+
 
   }
 
@@ -105,13 +107,15 @@ public final class Constants {
 
     public static final int kArmCanId = 55;
 
-    public static final double kFeederStation = -6; // -4
-    public static final double kTravel = 98;
+    public static final double kHome = 0; //-10
+    public static final double kFeederStation = 0; // -4
+    public static final double kTravel = 0;
+
     public static final double kLevel1 = 0;
     public static final double kLevel2 = 0; //-7
-    public static final double kLevel3 = 87;
-    public static final double kLevel4 = 82; //84
-    public static final double kHome = 0; //-10
+    public static final double kLevel3 = 0;
+    public static final double kLevel4 = 0; //84
+
 
   }
 
@@ -119,8 +123,9 @@ public final class Constants {
 
     public static final int kCoralIntakeCanId = 60;
 
-    public static final double kCoralIntakeSpeed = 0.25;
+    public static final double kCoralIntakeSpeed = 1;
     public static final double kCoralOutakeSpeed = -1;
+    public static final double kCoralNoSpeed = 0;
 
   }
 
