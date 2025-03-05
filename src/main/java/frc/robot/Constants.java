@@ -92,13 +92,13 @@ public final class Constants {
     public static final int kElevator2CanId = 51;
 
     public static final double kHome = 0;
-    public static final double kFeederStation = 0; //14
+    public static final double kFeederStation = 14; //14
     public static final double kTravel = 0;
 
     public static final double kLevel1 = 0;
     public static final double kLevel2 = 0; //16
-    public static final double kLevel3 = 0; // 8
-    public static final double kLevel4 = 40; //88
+    public static final double kLevel3 = 5; // 8
+    public static final double kLevel4 = 47; //88
 
 
   }
@@ -107,14 +107,14 @@ public final class Constants {
 
     public static final int kArmCanId = 55;
 
-    public static final double kHome = 0; //-10
-    public static final double kFeederStation = 0; // -4
+    public static final double kHome = 0.3; //-10
+    public static final double kFeederStation = 0.3; // -4
     public static final double kTravel = 0;
 
     public static final double kLevel1 = 0;
     public static final double kLevel2 = 0; //-7
-    public static final double kLevel3 = 0;
-    public static final double kLevel4 = 0; //84
+    public static final double kLevel3 = 3.25;
+    public static final double kLevel4 = 3.25; //84
 
 
   }

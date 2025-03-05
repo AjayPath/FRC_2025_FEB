@@ -12,11 +12,12 @@ import frc.robot.Constants.OperatorControllerConstants;
 import frc.robot.commands.CoralIntakeCmd;
 import frc.robot.commands.MoveArmToSetpoint;
 import frc.robot.commands.MoveElevatorToSetpoint;
+import frc.robot.commands.limelightCommands.alignXandYLeftCamera;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.CoralIntakeSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSubsystem;
-
+import frc.robot.subsystems.VisionSubsystem;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -46,7 +47,7 @@ public class RobotContainer {
   private final CoralIntakeSubsystem s_CoralIntakeSubsystem = new CoralIntakeSubsystem();
   private final ArmSubsystem s_ArmSubsystem = new ArmSubsystem();
   private final ElevatorSubsystem s_ElevatorSubsystem = new ElevatorSubsystem();
-
+  private final VisionSubsystem s_VisionSubsystem = new VisionSubsystem();
 
   // Setup Driver Controller
   private final CommandXboxController m_driverController =
@@ -142,10 +143,10 @@ public class RobotContainer {
 
     m_operatorController.x().onTrue(
 
-      //new SequentialCommandGroup(
-        new MoveArmToSetpoint(s_ArmSubsystem, ArmConstants.kLevel4)
-        //new MoveElevatorToSetpoint(s_ElevatorSubsystem, ElevatorConstants.kLevel4)
-      //)
+      new SequentialCommandGroup(
+        new MoveArmToSetpoint(s_ArmSubsystem, ArmConstants.kLevel4),
+        new MoveElevatorToSetpoint(s_ElevatorSubsystem, ElevatorConstants.kLevel4)
+      )
 
     );
 
@@ -154,8 +155,8 @@ public class RobotContainer {
     m_operatorController.a().onTrue(
 
       new SequentialCommandGroup(
-        new MoveElevatorToSetpoint(s_ElevatorSubsystem, ElevatorConstants.kHome)
-        //new MoveArmToSetpoint(s_ArmSubsystem, ArmConstants.kFeederStation)
+        new MoveElevatorToSetpoint(s_ElevatorSubsystem, ElevatorConstants.kFeederStation),
+        new MoveArmToSetpoint(s_ArmSubsystem, ArmConstants.kFeederStation)
       )
 
     );
@@ -163,7 +164,7 @@ public class RobotContainer {
     m_operatorController.y().onTrue(
 
       new SequentialCommandGroup(
-        //new MoveArmToSetpoint(s_ArmSubsystem, ArmConstants.kLevel3),
+        new MoveArmToSetpoint(s_ArmSubsystem, ArmConstants.kLevel3),
         new MoveElevatorToSetpoint(s_ElevatorSubsystem, ElevatorConstants.kLevel3)
       )
 
@@ -186,11 +187,22 @@ public class RobotContainer {
     );
 
     m_operatorController.rightBumper().onTrue(
-      //new SequentialCommandGroup(
-        //new MoveElevatorToSetpoint(s_ElevatorSubsystem, ElevatorConstants.kHome)
+      new SequentialCommandGroup(
+        new MoveElevatorToSetpoint(s_ElevatorSubsystem, ElevatorConstants.kHome),
         new MoveArmToSetpoint(s_ArmSubsystem, ArmConstants.kHome)
-        //)
+        )
     );
+
+
+    // autonomous alignment commands 
+
+    m_driverController.b().onTrue(
+      new alignXandYLeftCamera(s_driveSubsystem, s_VisionSubsystem, 0, false, 21, -11, 0, 0)
+    ); 
+
+    m_driverController.b().onFalse(
+      new alignXandYLeftCamera(s_driveSubsystem, s_VisionSubsystem, 0, true, 21, -11, 0, 0)
+    ); 
 
   }
 

@@ -127,8 +127,8 @@ public class Configs {
                 .positionWrappingInputRange(0, armFactor)
                 .maxMotion
                 .maxVelocity(4)
-                .maxAcceleration(4)
-                .allowedClosedLoopError(0.2);
+                .maxAcceleration(8)
+                .allowedClosedLoopError(0.1);
 
         }
 
